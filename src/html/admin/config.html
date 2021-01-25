@@ -4,8 +4,8 @@
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 		<title>Admin Panel</title>
-		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
-		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css" integrity="sha384-fLW2N01lMqjakBkx3l/M9EahuwpSfeNvV63J5ezn3uZzapT0u7EYsXMjQV+0En5r" crossorigin="anonymous">
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
 		<!-- inject:css -->
 		<link rel="stylesheet" type="text/css" href="../../res/main.css"/>
 		<!-- endinject -->
@@ -21,9 +21,13 @@
 				float: right;
 				cursor: pointer;
 			}
+
+			#ban-cmd-box {
+				width: 100%;
+			}
 		</style>
-		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js" integrity="sha384-o6l2EXLcx4A+q7ls2O2OP2Lb2W7iBgOsYvuuRI6G+Efbjbk6J4xbirJpHZZoHbfs" crossorigin="anonymous"></script>
-		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+		<script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha384-xBuQ/xzmlsLoJpyjoggmTEz8OWUFM0/RC5BsqQBDX2v5cMvDHcMakNTNrHIW2I5f" crossorigin="anonymous"></script>
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 		<!-- inject:js -->
 		<script type="text/javascript" src="../guacamole.min.js"></script>
 		<script type="text/javascript" src="../../js/collab-vm/common.js"></script>
@@ -119,6 +123,55 @@
 									<input type="number" class="form-control" name="max-upload-time" id="max-upload-box"> seconds
 								</div>
 								
+								<div class="form-group form-inline">
+									<label for="ban-cmd">Ban IP Command:</label>
+									<input type="text" class="form-control" name="ban-cmd" id="ban-cmd-box" placeholder="$IP = user's IP, $NAME = user's name">
+								</div>
+								
+								<div class="form-group form-inline">
+									<label for="jpeg-quality-box">JPEG Compression Quality:</label>
+									<input type="number" class="form-control" name="jpeg-quality" id="jpeg-quality-box">
+								</div>
+
+								<div class="form-group form-inline">
+									<label for="blacklisted-usernames-box">Blacklisted usernames (seperated by ;):</label>
+									<input type="text" class="form-control" name="blacklisted-usernames" id="blacklisted-usernames-box">
+								</div>
+
+								<div class="form-group form-inline">
+									<label><input type="checkbox" name="mod-enabled" id="mod-enabled-chkbox"> Enable Moderator Rank</label>
+								</div>
+
+								<div class="form-group form-inline" id="mod-perms">
+									<div class="form-group">
+										<label><input type="checkbox" name="mod-perm-restore"> Restore Snapshot</label>&nbsp;&nbsp;
+									</div>
+									<div class="form-group">
+										<label><input type="checkbox" name="mod-perm-reboot"> Reboot VM</label>&nbsp;&nbsp;
+									</div>
+									<div class="form-group">
+										<label><input type="checkbox" name="mod-perm-ban"> Ban Users</label>&nbsp;&nbsp;
+									</div>
+									<div class="form-group">
+										<label><input type="checkbox" name="mod-perm-kick"> Kick Users</label>&nbsp;&nbsp;
+									</div>
+									<div class="form-group">
+										<label><input type="checkbox" name="mod-perm-forcevotes"> Force Votes</label>&nbsp;&nbsp;
+									</div>
+									<div class="form-group">
+										<label><input type="checkbox" name="mod-perm-mute"> Mute Users</label>&nbsp;&nbsp;
+									</div>
+									<div class="form-group">
+										<label><input type="checkbox" name="mod-perm-endturns"> Bypass & End Turns</label>&nbsp;&nbsp;
+									</div>
+									<div class="form-group">
+										<label><input type="checkbox" name="mod-perm-renameuser"> Rename Users</label>&nbsp;&nbsp;
+									</div>
+									<div class="form-group">
+										<label><input type="checkbox" name="mod-perm-copyip"> Copy IPs</label>
+									</div>
+								</div>
+
 								<!--
 								<div class="form-group form-inline">
 								<label><input type="checkbox" name="disable-keyboard" id="disable-keyboard-chkbox">
@@ -138,9 +191,9 @@
 							</div>
 						</div>
 						<div class="panel panel-default">
-							<div class="panel-heading">Server Password</div>
+							<div class="panel-heading">Server Passwords</div>
 							<div class="panel-body">
-								<label for="chng-pwd-box"><span class="glyphicon glyphicon-lock" aria-hidden="true"></span> Change Password:</label>
+								<label for="chng-pwd-box"><span class="glyphicon glyphicon-lock" aria-hidden="true"></span> Change Master Password:</label>
 								<div class="form-group input-group">
 									<span class="input-group-addon">
 										<input type="checkbox" aria-label="..." id="chng-pwd-chkbox">
@@ -150,7 +203,17 @@
 								<button class="btn btn-default" id="chng-pwd-btn" type="button" disabled>
 									<span class="glyphicon glyphicon-ok" aria-hidden="true"></span> Change Password
 								</button>
-								
+								<br><br>
+								<label for="chng-modpwd-box"><span class="glyphicon glyphicon-lock" aria-hidden="true"></span> Change Moderator Password:</label>
+								<div class="form-group input-group">
+									<span class="input-group-addon">
+										<input type="checkbox" aria-label="..." id="chng-modpwd-chkbox">
+									</span>
+									<input type="password" class="form-control" aria-label="..." name="password" id="chng-modpwd-box" disabled>
+								</div>
+								<button class="btn btn-default" id="chng-modpwd-btn" type="button" disabled>
+									<span class="glyphicon glyphicon-ok" aria-hidden="true"></span> Change Password
+								</button>
 							</div>
 						</div>
 						<div class="panel panel-default">
@@ -222,19 +285,20 @@
 								<label for="vm-display-name">Display Name:</label>
 								<span><input type="text" class="form-control" name="vm-display-name" id="vm-display-name" placeholder="display name of the VM"></span>
 							</div>
-							<div class="form-group">Each VM must have a unique VNC and QMP port</div>
+							<div class="form-group">Each VM must have a unique VNC port (and QMP port for Windows users)</div>
 							<div class="form-group form-inline">
 								<div class="form-group">
 									<label for="vnc-address">VNC Address:</label>
 									<input type="text" class="form-control" name="vm-vnc-address" id="vm-vnc-address">
 								</div>
+								<br>
 								<div class="form-group">
 									<label for="vm-vnc-port">VNC Port:</label>
 									<input type="number" class="form-control" name="vm-vnc-port" id="vm-vnc-port"> - must be at least 5900
 								</div>
 							</div>
 							
-							<div class="form-group form-inline" style="display:none">
+							<div class="form-group form-inline">
 								<div class="form-group">
 									<label>QMP Socket Type:</label>
 									<div class="btn-group">
@@ -247,14 +311,21 @@
 										</ul>
 									</div>
 								</div>
+								<br>
 								<div class="form-group">
 									<label for="vm-qmp-address">QMP Address:</label>
 									<input type="text" class="form-control" name="vm-qmp-address" id="vm-qmp-address">
 								</div>
+								<br>
 								<div class="form-group">
 									<label for="vm-qmp-port">QMP Port:</label>
 									<input type="number" class="form-control" name="vm-qmp-port" id="vm-qmp-port">
 								</div>
+							</div>
+							
+							<div class="form-group form-inline">
+								<label for="vm-max-attempts">Max Guacamole/QMP Connection Attempts:</label>
+								<input type="number" class="form-control" name="vm-max-attempts" id="vm-max-attempts">
 							</div>
 							
 							<div class="form-group">
@@ -336,6 +407,7 @@
 								<label><input type="checkbox" name="vm-agent-enabled" id="agent-enabled-chkbox">
 									<span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span> Agent Enabled
 								</label>
+								<br>
 								<label><input type="checkbox" name="vm-agent-use-virtio" id="agent-use-virtio-chkbox"> Use Virtio</label> - requires virtio serial driver to be installed
 								<div class="form-group form-inline" style="display: none">
 									<div class="form-group">
@@ -359,6 +431,7 @@
 										<input type="number" class="form-control" name="vm-agent-port" id="agent-port" disabled>
 									</div>
 								</div>
+								<br>
 								<label><input type="checkbox" name="vm-restore-heartbeat" id="restore-heartbeat-chkbox" disabled>
 									<span class="glyphicon glyphicon-off" aria-hidden="true"></span> Restore After Heartbeat Timeout
 								</label>
@@ -367,7 +440,6 @@
 									<label for="heartbeat-timeout-box"><span class="glyphicon glyphicon-time" aria-hidden="true"></span> Heartbeat Timeout:</label>
 									<span><input type="number" class="form-control" name="vm-heartbeat-timeout" id="heartbeat-timeout-box" disabled> seconds</span>
 								</div>-->
-								
 								<label><input type="checkbox" name="vm-uploads-enabled" id="uploads-enabled-chkbox" disabled>
 									<span class="glyphicon glyphicon-file" aria-hidden="true"></span> Uploads Enabled
 								</label>
